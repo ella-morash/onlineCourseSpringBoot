@@ -1,6 +1,7 @@
 package com.example.onlinecourse.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +22,12 @@ public class CourseInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    private LocalDate startsOn;
-    private LocalDate endsOn;
+
+    private String startsOn;
+
+    private String endsOn;
     private String lecturer;
-    @OneToOne(mappedBy = "courseInfo")
-    private Course course;
+
 
 
 }

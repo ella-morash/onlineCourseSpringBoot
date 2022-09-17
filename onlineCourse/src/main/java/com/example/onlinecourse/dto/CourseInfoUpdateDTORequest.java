@@ -8,9 +8,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CourseDTOResponse {
-
-    private Long id;
+public class CourseInfoUpdateDTORequest {
     private String name;
-
+    private String description;
+    private String lecturer;
 }

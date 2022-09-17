@@ -2,7 +2,6 @@ package com.example.onlinecourse.dto;
 
 
 import lombok.*;
-import net.bytebuddy.asm.Advice;
 
 import java.time.LocalDate;
 
@@ -11,11 +10,13 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
-public class CourseDTORequest {
+public class CourseInfoDTOResponse {
 
+    private Long id;
     private String name;
     private String description;
     private String lecturer;
-    private LocalDate startsOn;
-    private LocalDate endsOn;
+    private String startsOn;
+    private String endsOn;
+    private Boolean isActive;
 }

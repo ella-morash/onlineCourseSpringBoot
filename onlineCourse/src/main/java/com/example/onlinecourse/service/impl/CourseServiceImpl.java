@@ -9,6 +9,7 @@ import com.example.onlinecourse.repository.CourseInfoRepository;
 import com.example.onlinecourse.repository.CourseRepository;
 import com.example.onlinecourse.service.CourseService;
 import com.example.onlinecourse.utils.CourseInfoPropertiesValidator;
+import com.example.onlinecourse.utils.MyConverter;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -23,29 +24,21 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
 
-    private final CourseInfoRepository courseInfoRepository;
-    private final CourseInfoPropertiesValidator validator;
+
+
 
 
     @Override
     public List<CourseDTOResponse> findAllActiveCourses(Boolean showAll) {
-        if (showAll == null) {
-            return courseRepository.findAll().stream()
 
-                    .map(course -> CourseDTOResponse.builder()
-                            .id(course.getId())
-                            .name(course.getName())
-                            .build())
+        if (showAll == null || showAll) {
+            return courseRepository.findAll().stream()
+                    .map(MyConverter::convertToCourseDto)
                     .toList();
         }
 
-        var courses = showAll ? courseRepository.findAll() : courseRepository.findAllByIsActive(true);
-
-        return courses.stream()
-                             .map(course -> CourseDTOResponse.builder()
-                                     .id(course.getId())
-                                     .name(course.getName())
-                                     .build())
+        return courseRepository.findAllByIsActive(true).stream()
+                             .map(MyConverter::convertToCourseDto)
                              .toList();
 
 
@@ -57,10 +50,7 @@ public class CourseServiceImpl implements CourseService {
         var course = courseRepository.findById(courseId)
                 .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        var courseInfo = course.getCourseInfo();
-
         course.setIsActive(!course.getIsActive());
-
 
         courseRepository.save(course);
 
